@@ -1,23 +1,42 @@
-const newProm = new Promise((resolve, reject) =>
-  reject(new Error("Really bad thing."))
-).catch((err) => console.log(err));
+const { readFile } = require("node:fs");
+const fs = require("node:fs");
 
-//const { readFile } = require("fs").promises;
-// const files = [filename, "not a file", filename];
+const bigFile = __filename;
+const mediumFile = __filename;
+const smallFile = __filename;
 
-// const print = (results) => {
-//   results
-//     .filter(({ status }) => (status = "rejected"))
-//     .forEach(({ reason }) => console.error(reason));
+const print = (error, data) => {
+  if (error) {
+    throw error;
+  }
+  console.log(data.toString());
+};
+// Parallel Execution
+// fs.readFile(bigFile, print);
+// fs.readFile(mediumFile, print);
+// fs.readFile(smallFile, print);
 
-//   const data = results
-//     .filter(({ status }) => (status = "fulfilled"))
-//     .map(({ value }) => value);
+// // Big file -> medium -> small file
+// fs.readFile(bigFile, (err, contents) => {
+//   print(err, contents);
+//   fs.readFile(mediumFile, (err, contents) => {
+//     print(err, contents);
+//     fs.readFile(smallFile, print);
+//   });
+// });
 
-//   const contents = Buffer.concat(data);
-//   console.log(contents.toString());
-// };
+//
+const fileArray = [bigFile, "not exist", smallFile];
+let index = 0;
+const data = [];
+const read = (file) => {
+  readFile(file, (err, contents) => {
+    index += 1;
+    if (err) print(err);
+    else data.push(contents);
+    if (index < fileArray.length) read(fileArray[index]);
+    else print(null, Buffer.concat(data));
+  });
+};
 
-// const readers = files.map((file) => readFile(file));
-
-// Promise.allSettled(readers).then(print).catch(console.error);
+read(fileArray[0]);
