@@ -13,11 +13,11 @@
 - Events in Node
 - Restful Services
 - Express
+- Error handling
 
 # Day 3: Refactor API to have a persistent backend
 
 - Buffers and Streams
-- Error handling
 - Interacting with the file system
 - Node.js and Databases
 

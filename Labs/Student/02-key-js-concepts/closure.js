@@ -1,8 +1,6 @@
 const assert = require("assert");
 
-function prefixer(prefix) {
-  return (text) => `${prefix}${text}`;
-}
+function prefixer(prefix) {}
 
 const sayHiTo = prefixer("Hello ");
 const sayByeTo = prefixer("Goodbye ");
