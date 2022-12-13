@@ -19,9 +19,13 @@ const urls = [
 
 async function getData(urls) {
   const responses = await Promise.all(urls.map((url) => fetch(url)));
-  const data = await Promise.all(responses.map((response) => response.json()));
+  const data = await Promise.all(
+    responses.map((response) => (response.ok ? response.json() : null))
+  );
   console.log(data);
 }
+
+// getData(urls);
 
 async function getData2(urls) {
   const responses = await Promise.allSettled(urls.map((url) => fetch(url)));
@@ -36,6 +40,8 @@ async function getData2(urls) {
   console.log(errors);
   console.log(notOk);
 }
+
+// getData2(urls);
 
 async function getData3(urls, signal) {
   try {

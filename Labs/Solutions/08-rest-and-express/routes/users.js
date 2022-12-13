@@ -1,14 +1,12 @@
 const router = require("express").Router();
+const { getUser, addUser } = require("../controllers/userController");
 
 router.use(function timeLog(req, res, next) {
   console.log("Time: ", Date.now());
   next();
 });
 
-router.get("/:id/:name", (req, res) => {
-  console.log(req.params);
-  const { id, name } = req.params;
-  res.send(`hello user ${id} from express, you're called ${name}`);
-});
+router.get("/:id", getUser);
+router.post("/", addUser);
 
 module.exports = router;
